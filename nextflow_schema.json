@@ -1,0 +1,200 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/blazquezlab/illumina2nanopore/master/nextflow_schema.json",
+    "title": "illumina2nanopore/nanopore_pipeline_parameters",
+    "description": "A pipeline to demultiplex, map, deduplicate and count target RNA sequences",
+    "type": "object",
+    "definitions": {
+        "run_options": {
+            "title": "run_options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "run_name": {
+                    "type": "string",
+                    "default": "run_test"
+                },
+                "output_dir": {
+                    "type": "string",
+                    "default": "output",
+                    "format": "directory-path"
+                }
+            }
+        },
+        "basecalling_options": {
+            "title": "basecalling_options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "fastq_dir": {
+                    "type": "string",
+                    "default": "inputs/fastq",
+                    "format": "directory-path"
+                },
+                "enable_basecalling": {
+                    "type": "boolean"
+                },
+                "enable_gpu": {
+                    "type": "boolean"
+                },
+                "fast5_dir": {
+                    "type": "string",
+                    "default": "inputs"
+                },
+                "config_file": {
+                    "type": "string",
+                    "default": "dna_r9.4.1_450bps_sup.cfg"
+                }
+            }
+        },
+        "demultiplexing": {
+            "title": "demultiplexing",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "enable_orientation_demultiplexing": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "fw_fp_P5_1": {
+                    "type": "string",
+                    "default": "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTA"
+                },
+                "rv_tp_P5_1": {
+                    "type": "string",
+                    "default": "TAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+                },
+                "fw_tp_P3_1": {
+                    "type": "string",
+                    "default": "ATCTCGTATGCCGTCTTCTGCTTG"
+                },
+                "rv_fp_P3_1": {
+                    "type": "string",
+                    "default": "CAAGCAGAAGACGGCATACGAGAT"
+                },
+                "enable_library_demultiplexing": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "lib_csv": {
+                    "type": "string",
+                    "default": "inputs/csvs/libraries.csv",
+                    "format": "file-path"
+                },
+                "fw_P5_2": {
+                    "type": "string",
+                    "default": "CACGACGCTCTTCCGATCT"
+                },
+                "fw_P3_2": {
+                    "type": "string",
+                    "default": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC"
+                },
+                "min_length": {
+                    "type": "integer",
+                    "default": 0
+                },
+                "max_length": {
+                    "type": "integer",
+                    "default": 999999
+                },
+                "enable_barcode_demultiplexing": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "bc_csv": {
+                    "type": "string",
+                    "default": "inputs/csvs/barcodes.csv",
+                    "format": "file-path"
+                },
+                "enable_UMI_treatment": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "enable_UMI_clustering": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "UMI_length": {
+                    "type": "integer",
+                    "default": 6
+                },
+                "UMI_threshold": {
+                    "type": "integer",
+                    "default": 1
+                },
+                "window_size": {
+                    "type": "integer",
+                    "default": 5
+                }
+            }
+        },
+        "alignment_options": {
+            "title": "alignment_options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "index_dir": {
+                    "type": "string",
+                    "default": "inputs/index",
+                    "format": "directory-path"
+                },
+                "enable_minimap": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "ref_fasta": {
+                    "type": "string",
+                    "default": "inputs/fasta/reference.fa",
+                    "format": "file-path"
+                },
+                "enable_isoform_counting": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "gtf_file": {
+                    "type": "string",
+                    "default": "inputs/index/annotations.gtf",
+                    "format": "file-path"
+                },
+                "saf_file": {
+                    "type": "string",
+                    "default": "inputs/csvs/annotations.saf",
+                    "format": "file-path"
+                },
+                "multimapping_allowed": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "fraction_allowed": {
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        }
+    },
+    "properties": {
+        "multiqc_config": {
+            "type": "string",
+            "default": "assets/multiqc_config.yaml",
+            "hidden": true
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/definitions/run_options"
+        },
+        {
+            "$ref": "#/definitions/basecalling_options"
+        },
+        {
+            "$ref": "#/definitions/demultiplexing"
+        },
+        {
+            "$ref": "#/definitions/alignment_options"
+        }
+    ]
+}
